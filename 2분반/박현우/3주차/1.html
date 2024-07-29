@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4자리 숫자야구 게임</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #game-container {
+            text-align: center;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>4자리 숫자야구 게임</h1>
+        <input type="text" id="user-input" maxlength="4" placeholder="4자리 숫자 입력">
+        <button id="submit-btn">확인</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // 4자리 랜덤 숫자 생성
+            function generateRandomNumber() {
+                let digits = [];
+                while (digits.length < 4) {
+                    let randomDigit = Math.floor(Math.random() * 10).toString();
+                    if (!digits.includes(randomDigit)) {
+                        digits.push(randomDigit);
+                    }
+                }
+                return digits.join('');
+            }
+
+            // 스트라이크와 볼 개수 계산
+            function calculateResult(userInput, secretNumber) {
+                let strikes = 0;
+                let balls = 0;
+                for (let i = 0; i < 4; i++) {
+                    if (userInput[i] === secretNumber[i]) {
+                        strikes++;
+                    } else if (secretNumber.includes(userInput[i])) {
+                        balls++;
+                    }
+                }
+                return { strikes, balls };
+            }
+
+            // 게임 초기화
+            let secretNumber = generateRandomNumber();
+            console.log("Secret Number: ", secretNumber); // 테스트를 위해 콘솔에 비밀 숫자 출력
+
+            $('#submit-btn').click(function () {
+                let userInput = $('#user-input').val();
+                if (userInput.length !== 4 || !/^\d+$/.test(userInput)) {
+                    alert("4자리 숫자를 입력하세요.");
+                    return;
+                }
+
+                let result = calculateResult(userInput, secretNumber);
+                let resultText = `${result.strikes} 스트라이크, ${result.balls} 볼`;
+                
+                $('#result').text(resultText).fadeIn().animate({
+                    fontSize: "2em",
+                    opacity: 1
+                }, 500).animate({
+                    fontSize: "1.5em",
+                    opacity: 0.8
+                }, 500);
+
+                if (result.strikes === 4) {
+                    alert("축하합니다! 정답을 맞췄습니다!");
+                    // 게임을 다시 시작하려면 새로운 랜덤 숫자 생성
+                    secretNumber = generateRandomNumber();
+                    console.log("New Secret Number: ", secretNumber);
+                    $('#result').hide();
+                    $('#user-input').val('');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
