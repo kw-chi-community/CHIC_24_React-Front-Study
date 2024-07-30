@@ -1,91 +1,562 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="main.css">
-</head>
-<body>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON to HTML Table</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JSON to HTML Table</h1>
+    <table id="jsonTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
-     <!--UI 만드는 법 1. 미리 디자인해놀고 숨김 2. 버튼누르면 보여줌-->
-    <div class="alert-box" id= "alert">
-        <p id="title">Alert 박스</p>
-    <!-- funtion 안 썼을 때
-    <button onclick="document.getElementById('alert').style.display='block';">열기</button>
-    
-    <button onclick="document.getElementById('alert').style.display='none';">닫기</button>
-    -->
-
-
-    <button id="close">X</button> 
-    </div>    
-
-
-    <button onclick="알림창1열기('아이디입력해')">아이디</button>
-    <button onclick="알림창1열기('비번입력해')">비번</button>
-
-    <h4 id="test">안녕하세요</h4>
-
-
-    
-    <h2 id="hello">안녕하세요</h2>
-    <h2 id="hi">올때메로나</h2>
-    <!--변경할 HTML이 있으면 하단에 JS코딩해야 함-->
-    <!--jQuery로 HTML 변경하는 법 $('CSS셀렉터')-->
     <script>
-       
-        //document.querySelector('#test')
-        //document.getElementById('test').innerHTML= '???';
-        $('#test').css('color','red')
+      // JSON 데이터
 
-        document.getElementById('close').addEventListener('click', function(){
-            document.getElementById('alert').style.display='none'
-        });
+      var jsonData = [
+        {
+          Name: "박지영",
+          Age: 33,
+          City: "제주",
+        },
+        {
+          Name: "김태희",
+          Age: 43,
+          City: "세종",
+        },
+        {
+          Name: "정수빈",
+          Age: 55,
+          City: "강릉",
+        },
+        {
+          Name: "박지영",
+          Age: 46,
+          City: "부산",
+        },
+        {
+          Name: "김태희",
+          Age: 27,
+          City: "서울",
+        },
+        {
+          Name: "정수빈",
+          Age: 31,
+          City: "대전",
+        },
+        {
+          Name: "정수빈",
+          Age: 36,
+          City: "제주",
+        },
+        {
+          Name: "이민호",
+          Age: 48,
+          City: "부산",
+        },
+        {
+          Name: "정수빈",
+          Age: 61,
+          City: "부산",
+        },
+        {
+          Name: "박지영",
+          Age: 54,
+          City: "서울",
+        },
+        {
+          Name: "이민호",
+          Age: 40,
+          City: "인천",
+        },
+        {
+          Name: "이민호",
+          Age: 28,
+          City: "제주",
+        },
+        {
+          Name: "김철수",
+          Age: 58,
+          City: "부산",
+        },
+        {
+          Name: "서영희",
+          Age: 30,
+          City: "인천",
+        },
+        {
+          Name: "이민호",
+          Age: 68,
+          City: "제주",
+        },
+        {
+          Name: "서영희",
+          Age: 67,
+          City: "제주",
+        },
+        {
+          Name: "김태희",
+          Age: 48,
+          City: "울산",
+        },
+        {
+          Name: "이민호",
+          Age: 46,
+          City: "서울",
+        },
+        {
+          Name: "서영희",
+          Age: 56,
+          City: "대구",
+        },
+        {
+          Name: "박지영",
+          Age: 24,
+          City: "서울",
+        },
+        {
+          Name: "김태희",
+          Age: 39,
+          City: "제주",
+        },
+        {
+          Name: "김철수",
+          Age: 30,
+          City: "제주",
+        },
+        {
+          Name: "김태희",
+          Age: 62,
+          City: "대전",
+        },
+        {
+          Name: "김철수",
+          Age: 39,
+          City: "부산",
+        },
+        {
+          Name: "정수빈",
+          Age: 41,
+          City: "부산",
+        },
+        {
+          Name: "송혜교",
+          Age: 29,
+          City: "인천",
+        },
+        {
+          Name: "최영희",
+          Age: 34,
+          City: "세종",
+        },
+        {
+          Name: "박지영",
+          Age: 61,
+          City: "대구",
+        },
+        {
+          Name: "김철수",
+          Age: 66,
+          City: "인천",
+        },
+        {
+          Name: "박지영",
+          Age: 50,
+          City: "세종",
+        },
+        {
+          Name: "김태희",
+          Age: 49,
+          City: "대구",
+        },
+        {
+          Name: "홍길동",
+          Age: 69,
+          City: "부산",
+        },
+        {
+          Name: "송혜교",
+          Age: 60,
+          City: "강릉",
+        },
+        {
+          Name: "송혜교",
+          Age: 48,
+          City: "울산",
+        },
+        {
+          Name: "김철수",
+          Age: 59,
+          City: "대구",
+        },
+        {
+          Name: "김철수",
+          Age: 61,
+          City: "대전",
+        },
+        {
+          Name: "최영희",
+          Age: 58,
+          City: "대구",
+        },
+        {
+          Name: "정수빈",
+          Age: 30,
+          City: "인천",
+        },
+        {
+          Name: "김철수",
+          Age: 36,
+          City: "강릉",
+        },
+        {
+          Name: "최영희",
+          Age: 63,
+          City: "강릉",
+        },
+        {
+          Name: "박지영",
+          Age: 29,
+          City: "부산",
+        },
+        {
+          Name: "홍길동",
+          Age: 23,
+          City: "광주",
+        },
+        {
+          Name: "정수빈",
+          Age: 46,
+          City: "대구",
+        },
+        {
+          Name: "정수빈",
+          Age: 28,
+          City: "세종",
+        },
+        {
+          Name: "박지영",
+          Age: 49,
+          City: "울산",
+        },
+        {
+          Name: "이민호",
+          Age: 33,
+          City: "제주",
+        },
+        {
+          Name: "홍길동",
+          Age: 44,
+          City: "대전",
+        },
+        {
+          Name: "장미경",
+          Age: 27,
+          City: "강릉",
+        },
+        {
+          Name: "박지영",
+          Age: 51,
+          City: "광주",
+        },
+        {
+          Name: "김태희",
+          Age: 46,
+          City: "대전",
+        },
+        {
+          Name: "최영희",
+          Age: 24,
+          City: "광주",
+        },
+        {
+          Name: "송혜교",
+          Age: 43,
+          City: "인천",
+        },
+        {
+          Name: "정수빈",
+          Age: 48,
+          City: "울산",
+        },
+        {
+          Name: "장미경",
+          Age: 43,
+          City: "울산",
+        },
+        {
+          Name: "송혜교",
+          Age: 25,
+          City: "서울",
+        },
+        {
+          Name: "최영희",
+          Age: 50,
+          City: "서울",
+        },
+        {
+          Name: "홍길동",
+          Age: 51,
+          City: "서울",
+        },
+        {
+          Name: "정수빈",
+          Age: 20,
+          City: "제주",
+        },
+        {
+          Name: "송혜교",
+          Age: 44,
+          City: "강릉",
+        },
+        {
+          Name: "김태희",
+          Age: 20,
+          City: "대구",
+        },
+        {
+          Name: "박지영",
+          Age: 43,
+          City: "부산",
+        },
+        {
+          Name: "서영희",
+          Age: 56,
+          City: "서울",
+        },
+        {
+          Name: "장미경",
+          Age: 28,
+          City: "부산",
+        },
+        {
+          Name: "박지영",
+          Age: 52,
+          City: "인천",
+        },
+        {
+          Name: "최영희",
+          Age: 43,
+          City: "대전",
+        },
+        {
+          Name: "김철수",
+          Age: 20,
+          City: "광주",
+        },
+        {
+          Name: "송혜교",
+          Age: 36,
+          City: "울산",
+        },
+        {
+          Name: "홍길동",
+          Age: 56,
+          City: "부산",
+        },
+        {
+          Name: "김태희",
+          Age: 36,
+          City: "인천",
+        },
+        {
+          Name: "송혜교",
+          Age: 49,
+          City: "강릉",
+        },
+        {
+          Name: "홍길동",
+          Age: 69,
+          City: "부산",
+        },
+        {
+          Name: "김철수",
+          Age: 28,
+          City: "서울",
+        },
+        {
+          Name: "서영희",
+          Age: 52,
+          City: "부산",
+        },
+        {
+          Name: "이민호",
+          Age: 53,
+          City: "대구",
+        },
+        {
+          Name: "김철수",
+          Age: 39,
+          City: "울산",
+        },
+        {
+          Name: "최영희",
+          Age: 41,
+          City: "광주",
+        },
+        {
+          Name: "김철수",
+          Age: 48,
+          City: "강릉",
+        },
+        {
+          Name: "서영희",
+          Age: 43,
+          City: "대전",
+        },
+        {
+          Name: "김태희",
+          Age: 30,
+          City: "부산",
+        },
+        {
+          Name: "장미경",
+          Age: 50,
+          City: "광주",
+        },
+        {
+          Name: "김철수",
+          Age: 38,
+          City: "강릉",
+        },
+        {
+          Name: "최영희",
+          Age: 69,
+          City: "세종",
+        },
+        {
+          Name: "최영희",
+          Age: 31,
+          City: "강릉",
+        },
+        {
+          Name: "박지영",
+          Age: 35,
+          City: "강릉",
+        },
+        {
+          Name: "홍길동",
+          Age: 27,
+          City: "부산",
+        },
+        {
+          Name: "송혜교",
+          Age: 60,
+          City: "대전",
+        },
+        {
+          Name: "김태희",
+          Age: 67,
+          City: "대전",
+        },
+        {
+          Name: "박지영",
+          Age: 54,
+          City: "제주",
+        },
+        {
+          Name: "김철수",
+          Age: 51,
+          City: "인천",
+        },
+        {
+          Name: "이민호",
+          Age: 23,
+          City: "부산",
+        },
+        {
+          Name: "송혜교",
+          Age: 53,
+          City: "서울",
+        },
+        {
+          Name: "김철수",
+          Age: 60,
+          City: "서울",
+        },
+        {
+          Name: "김태희",
+          Age: 32,
+          City: "대전",
+        },
+        {
+          Name: "송혜교",
+          Age: 60,
+          City: "세종",
+        },
+        {
+          Name: "홍길동",
+          Age: 29,
+          City: "대전",
+        },
+        {
+          Name: "최영희",
+          Age: 31,
+          City: "대구",
+        },
+        {
+          Name: "서영희",
+          Age: 46,
+          City: "부산",
+        },
+        {
+          Name: "홍길동",
+          Age: 48,
+          City: "대구",
+        },
+        {
+          Name: "서영희",
+          Age: 62,
+          City: "대전",
+        },
+        {
+          Name: "장미경",
+          Age: 50,
+          City: "인천",
+        },
+      ];
 
-        function 알림창1열기(구멍){
-            document.getElementById('title').innerHTML=구멍;
+      // TODO: 아래 createTableFromJSON 함수를 완성하세요
+      var createTableFromJSON = () => {
+         
+        function buildTable(data) {
+          var tableBody = document.querySelector('#jsonTable tbody');
+          tableBody.innerHTML = ''; // 테이블 본문 초기화
 
-            document.getElementById('alert').style.display='block';
+          //JSON 데이터의 길이만큼 반복하면서 각 사람에 대한 정보를 표에 추가
+          for (var i = 0; i < data.length; i++) {
+            var row = `
+              <tr>
+                <td>${data[i].Name}</td>
+                <td>${data[i].Age}</td>
+                <td>${data[i].City}</td>
+              </tr>
+            `;
+            tableBody.innerHTML += row; // 새로운 행을 표의 본문에 추가
+          }
         }
 
-        /*function 알림창2열기(){
-            document.getElementById('title').innerHTML='비번 입력하세요';
+      buildTable(jsonData); // JSON 데이터를 사용해서 표를 생성
+      }
 
-            document.getElementById('alert').style.display='block';
-        }*/
-
-
-
-        document.getElementById('hello').innerHTML='안녕';
-        document.getElementById('hello').style.color='red';
-        document.getElementById('hi').innerHTML='올때바밤바';
-        document.getElementById('hello').style.color='blue';
-        document.getElementById('hello').style.fontSize='30px';
-
-
-        /*function 알림창열기(구멍){
-            document.getElementById('alert').style.display= 구멍;
-        }
-
-
-        <!--function 알림창닫기(){
-            document.getElementById('alert').style.display='none';
-        }
-
-        funtion plus(구멍){
-            2 + 구멍
-        }
-
-        plus(1);
-        plus(2);*/
-
-
-
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        
-
+// 페이지가 로드되면 자동으로 createTableFromJSON 함수를 실행합니다.
+window.onload = createTableFromJSON;
     </script>
-
-</body>
+  </body>
 </html>
