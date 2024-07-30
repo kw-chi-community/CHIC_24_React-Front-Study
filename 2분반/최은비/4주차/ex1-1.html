@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Matching and Validation</title>
+</head>
+
+<body>
+    <h1>Password Matching and Validation</h1>
+    <label for="password">Password:</label>
+    <input type="password" id="password" onkeyup="validatePassword()" />
+    <br />
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" onkeyup="validatePassword()" />
+    <p id="message"></p>
+
+    <script>
+        const validatePassword = () => {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const message = document.getElementById("message");
+            message.innerHTML = '';
+
+
+
+            const length = password.length >= 8;
+            const upper = /[A-Z]/.test(password);
+            const lower = /[a-z]/.test(password);
+            const number = /[0-9]/.test(password);
+
+            let criteriaNotMet = false;
+
+            if (length) {
+                message.innerHTML += "8글자 이상 O<br>";
+            } else {
+                message.innerHTML += "8글자 이상 X<br>";
+                criteriaNotMet = true;
+            }
+
+            if (upper) {
+                message.innerHTML += "대문자 포함 O<br>";
+            } else {
+                message.innerHTML += "대문자 포함 X<br>";
+                criteriaNotMet = true;
+            }
+
+            if (lower) {
+                message.innerHTML += "소문자 포함 O<br>";
+            } else {
+                message.innerHTML += "소문자 포함 X<br>";
+                criteriaNotMet = true;
+            }
+
+            if (number) {
+                message.innerHTML += "숫자 포함 O<br>";
+            } else {
+                message.innerHTML += "숫자 포함 X<br>";
+                criteriaNotMet = true;
+            }
+
+            if (criteriaNotMet) {
+                message.innerHTML = '비밀번호는 다음 조건을 충족해야 합니다:<br>' + message.innerHTML;
+            } else {
+                if (password === confirmPassword) {
+                    message.innerHTML = "비밀번호가 일치하며 조건을 충족합니다.";
+                } else {
+                    message.innerHTML = "비밀번호가 일치하지 않습니다.";
+                }
+            }
+
+            // Prevent form submission if validation fails
+            return !criteriaNotMet && (password === confirmPassword);
+        }
+    </script>
+</body>
+
+</html>
