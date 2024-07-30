@@ -41,24 +41,41 @@
         cursor: pointer;
         background-color: yellow;
       }
+
+      /* pagination 구현 */
+      #pagination {
+        margin: 12px;
+      }
+      #pagination button {
+        margin: 0px 5px;
+      }
+      
     </style>
   </head>
   <body>
     <h1>JSON to HTML Table</h1>
-    <span id="all" class="filteron">전체</span>
-    <span class="filteroff">서울</span>
-    <span class="filteroff">부산</span>
-    <span class="filteroff">대구</span>
+    <span id="all" class="filteron" onclick="filterData('전체')">전체</span>
+    <span class="filteroff" onclick="filterData('서울')">서울</span>
+    <span class="filteroff" onclick="filterData('부산')">부산</span>
+    <span class="filteroff" onclick="filterData('대구')">대구</span>
     <table id="jsonTable">
       <thead>
         <tr>
-          <th data-index="0">Name ↑</th>
-          <th data-index="1">Age</th>
-          <th data-index="2">City</th>
+          <!-- Name 정렬 onclick 추가 -->
+          <th data-index="0" onclick="tableByName()">Name</th>
+          <th data-index="1" onclick="tableByName()">Age</th>
+          <th data-index="2" onclick="tableByName()">City</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
+
+    <!-- pagination 구현 -->
+    <div id="pagination">
+      <button id="prevPage" onclick="changePage(-1)">◀️</button>
+      <span id="page"></span>
+      <button id="nextPage" onclick="changePage(1)">▶️</button>
+    </div> 
 
     <script>
       // JSON 데이터
@@ -566,25 +583,105 @@
         },
       ];
 
+      let sortOrder = null; // 정렬 상태 저장
+      let filterByCity = [...jsonData]
+
+      let currentPage = 1;
+      const dataPerPage = 10;
+
       // JSON 데이터를 HTML 표로 변환하는 함수
       function createTableFromJSON() {
         var table = document.getElementById("jsonTable");
         var tbody = table.getElementsByTagName("tbody")[0];
 
-        for (var i = 0; i < jsonData.length; i++) {
+        tbody.innerHTML = ""; // 기존 data 지우기
+
+        // pagination 구현을 위한 data 슬라이싱
+        const startIndex = (currentPage - 1) * dataPerPage;
+        const endIndex = Math.min(startIndex + dataPerPage, filterByCity.length);
+        const pageData = filterByCity.slice(startIndex, endIndex);
+
+        // jsonData를 pageData로 수정
+        for (var i = 0; i < pageData.length; i++) {
           var row = tbody.insertRow(i);
           var cell1 = row.insertCell(0);
           var cell2 = row.insertCell(1);
           var cell3 = row.insertCell(2);
 
-          cell1.innerHTML = jsonData[i].Name;
-          cell2.innerHTML = jsonData[i].Age;
-          cell3.innerHTML = jsonData[i].City;
+          // jsonData를 pageData로 수정
+          cell1.innerHTML = pageData[i].Name;
+          cell2.innerHTML = pageData[i].Age;
+          cell3.innerHTML = pageData[i].City;
         }
+
+        updatePage();
+      }
+
+      // Table Header의 column별 정렬
+      function tableByName() {
+        // asc라면 desc로, desc라면 asc로
+        sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+
+        jsonData.sort((a, b) => {
+          if (a.Name < b.Name) return sortOrder === 'asc' ? -1 : 1;
+          if (a.Name > b.Name) return sortOrder === 'asc' ? 1 : -1;
+          return 0;
+        });
+
+        // th의 Name
+        // 방법1. th의 Name을 sortOrder에 따라 텍스트가 바뀌게
+        // document.querySelector("th[data-index='0']").textContent = 
+        //   sortOrder === 'asc' ? 'Name ↓' : 'Name ↑';
+
+        // 방법2. th의 Name 화살표 지우고 css의 클래스에 따라 화살표 띄우게
+        // 장점: 새로고침 했을 때의 정렬되지 않은 상태 -> 화살표 없음
+        document.querySelectorAll('th').forEach(th => th.classList.remove('asc', 'desc')); // 모든 th의 클래스 제거
+        document.querySelector("th[data-index='0']").classList.add(sortOrder); // 현재 th에 클래스 추가
+
+        createTableFromJSON();
+      }
+
+      // 전체, 서울, 부산, 대구에 대한 필터링
+      function filterData(city) {
+        filterByCity = city === '전체' ? [...jsonData] : jsonData.filter(data => data.City === city);
+        currentPage = 1;
+        createTableFromJSON();
+      }
+
+      // pagination 구현(1): 어떤 버튼 눌렸느냐에 따라 currentPage 변경
+      function changePage(direction) {
+        const totalPages = Math.ceil(filterByCity.length / dataPerPage);
+        if (direction === -1 && currentPage > 1) {
+          currentPage--;
+        } else if (direction === 1 && currentPage < totalPages) {
+          currentPage++;
+        }
+        createTableFromJSON();
+      }
+
+      // pagination 구현(2): (1)의 변경된 currentPage에 따라 page 변경
+      function updatePage() {
+        const totalPages = Math.ceil(filterByCity.length / dataPerPage);
+        document.getElementById("page").innerText = currentPage;
+        document.getElementById("prevPage").disabled = currentPage === 1;
+        document.getElementById("nextPage").disabled = currentPage === totalPages;
       }
 
       // 페이지가 로드되면 JSON 데이터를 표로 변환합니다.
-      window.onload = createTableFromJSON;
+      // window.onload = createTableFromJSON;
+      // 다른 작업도 함께 처리하기 위해서 createTableFromJSON 함수가 작성된 방식을 수정함
+      // createTableFromJSON에 괄호()를 붙임으로써 추가적인 코드를 함께 window.onload에 할당하는 것으로 이해
+      window.onload = () => {
+        createTableFromJSON();
+
+        // 각 도시별 인원 수 -> console 출력
+        const cityCount = jsonData.reduce((acc, { City }) => {
+          acc[City] = (acc[City] || 0) + 1; // 해당 도시 카운드 1 증가
+          return acc;
+        }, {}); // {}: 도시별 인원수 저장
+
+        console.log(cityCount);
+      }
     </script>
   </body>
 </html>
