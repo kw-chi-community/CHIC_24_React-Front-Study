@@ -535,26 +535,7 @@
     ];
 
     // TODO: 아래 createTableFromJSON 함수를 완성하세요
-    const createTableFromJSON = () => {
-      const tbody = document.querySelector('#jsonTable tbody');
-
-      jsonData.forEach(item => {
-        const row = document.createElement('tr');
-
-        for (const key in item) {
-          const cell = document.createElement('td');
-          cell.textContent = item[key];
-          row.appendChild(cell);
-        }
-
-        tbody.appendChild(row);
-      });
-    };
-
-    ㅡㅡㅡㅡㅡㅡ 위 아니면 아래 둘 중 하나만 살려두기 ㅡㅡㅡㅡㅡㅡㅡ
-
-
-    const createTableFromJSON = () => {
+     const createTableFromJSON = () => {
       const table = document.getElementById('jsonTable');
       const tbody = table.querySelector('tbody');
 
