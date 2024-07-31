@@ -72,5 +72,9 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById("root")
 );
+```
+* 힌트
+```
+```
 reportWebVitals();
 ```
