@@ -72,9 +72,28 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById("root")
 );
-```
-* 힌트
-```
-```
+
 reportWebVitals();
 ```
+
+* 힌트: 다음 부분을 수정하면 됨
+```
+import ReactDOM from "react-dom/client";
+```
+
+```
+<Switch>
+        <Route exact path="/">
+          <Home></Home>
+        </Route>
+        <Route path="/topics">
+          <Topics></Topics>
+        </Route>
+        <Route path="/contact">
+          <Contact></Contact>
+        </Route>
+        <Route path="/">Not Found</Route>{" "}
+        {/* 사용자가 존재하지 않는 페이지로 접근했을때 */}
+      </Switch>
+```
+
