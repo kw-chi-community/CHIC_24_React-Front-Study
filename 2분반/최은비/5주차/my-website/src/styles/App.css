@@ -1,0 +1,38 @@
+/* src/App.css */
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* Navbar 스타일 추가 */
+.Navbar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: #282c34;
+  display: flex;
+  justify-content: center;
+}
+
+.Navbar li {
+  margin: 0 15px;
+}
+
+.Navbar a {
+  color: #61dafb;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.Navbar a:hover {
+  text-decoration: underline;
+}
