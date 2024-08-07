@@ -1,0 +1,93 @@
+.study-container {
+  padding: 20px;
+  font-family: 'Ownglyph_noocar-Rg';
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.study-container h2 {
+  font-family: 'Danjo-bold-Regular';
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.study-container p {
+  padding-top: 5%;
+}
+
+.interest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.interest-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+}
+
+.interest-item.web-frontend {
+  background-image: url('../assets/Wf.jpg');
+}
+
+.interest-item.game-client {
+  background-image: url('../assets/Gc.jpg');
+}
+
+.interest-item.design {
+  background-image: url('../assets/UX.jpg');
+}
+
+.interest-item.talk {
+  background-image: url('../assets/talk.jpg');
+}
+
+.interest-item .icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.interest-item .label {
+  font-weight: bold;
+  font-size: 15px;
+  text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
+  color: #555;
+}
+
+.study-container.effect {
+  box-shadow: 0 10px 6px -6px #777;
+}
+
+.study-container.effect:before, .study-container.effect:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width: 300px;
+  background: #777;
+  box-shadow: 0 15px 10px #777;
+  transform: rotate(-3deg);
+}
+
+.study-container.effect:after {
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
+}

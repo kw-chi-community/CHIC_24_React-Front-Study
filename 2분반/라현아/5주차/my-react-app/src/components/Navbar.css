@@ -1,0 +1,56 @@
+nav {
+    background-color: #CBD8E8;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed; 
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+h1 {    
+    margin: 0;
+}
+
+h1 a {
+    color: #1C1DAB;
+    text-decoration: none;
+    font-family: 'Danjo-bold-Regular';
+    font-weight: bold;
+    font-size: 1.5rem;
+    transition: color 0.3s
+}
+
+h1 a:hover {
+    color: #023e8a; 
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin: 0;
+    font-family: 'Ownglyph_noocar-Rg';
+}
+
+a {
+    color: #1C1DAB;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+ul a:hover {
+  background-color: #023e8a;
+  color: #CBD8E8;
+}

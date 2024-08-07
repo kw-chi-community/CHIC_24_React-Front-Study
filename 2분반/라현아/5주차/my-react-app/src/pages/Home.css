@@ -1,0 +1,89 @@
+#about-me {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    padding: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
+
+}
+
+#about-me .inner-left,
+#about-me .inner-right {
+    box-sizing: border-box;
+    flex: 1; /* Ensure both sides take equal space */
+}
+
+#about-me .inner-left {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align content horizontally */
+    justify-content: center; /* Center align content vertically */
+}
+
+#about-me .inner-left h1 {
+    font-family: 'Danjo-bold-Regular';
+    font-size: 30px;
+    font-weight: 500;
+    color: black;
+    letter-spacing: 1px;
+    margin: 0;
+    text-align: center;
+    margin-bottom: 10%;
+}
+
+#about-me .inner-left .pic {
+    width: 300px;
+    height: 300px;
+    background-image: url(../assets/circle.png);
+    background-size: cover;
+    margin: 0 auto;
+}
+
+#about-me .inner-right {
+    padding: 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align content horizontally */
+}
+
+#about-me .inner-right ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#about-me .inner-right ul li {
+    font-family: 'Ownglyph_noocar-Rg';
+    font-size: 20px;
+    line-height: 2;
+}
+
+@media (max-width: 768px) {
+    #about-me {
+        flex-direction: column;
+        height: auto;
+        padding: 5%;
+    }
+    
+    #about-me .inner-left,
+    #about-me .inner-right {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+    }
+    
+    #about-me .inner-left h1 {
+        font-size: 24px; /* Adjusted font size for smaller screens */
+    }
+    
+    #about-me .inner-right ul li {
+        font-size: 18px;
+    }
+}
