@@ -1,0 +1,32 @@
+Quiz1
+componentDidMount메서드는 Fetch API를 사용한 방식이다. (o x)
+
+Quiz2 위 코드에서 Fetch API로 결정한 데이터 처리 방식은?
+class App extends Component {
+  state = {
+    article:{title:'Welcome', desc:'Hello, React & Ajax'}
+  }
+  render(){
+    return (
+      <div className="App">
+        <h1>WEB</h1>
+        <Nav onClick={function(id){
+          fetch(id+'.json')
+            .then(function(result){ 
+              return result.json(); 
+            })
+            .then(function(json){
+              this.setState({
+                article:{ 
+                  title:json.title,
+                  desc:json.desc
+                }
+              })
+            }.bind(this));
+        }.bind(this)}></Nav>
+        <Article title={this.state.article.title} desc={this.state.article.desc}></Article>
+      </div>
+    )
+'
+'
+'
