@@ -1,0 +1,63 @@
+1. 클래스 스타일 vs 함수 스타일
+
+클래스 스타일: 복잡하지만 모든 기능을 사용할 수 있음.
+state 관리와 라이프사이클 메서드 (예: componentDidMount, componentDidUpdate, componentWillUnmount)를 쉽게 구현할 수 있습니다.
+
+함수 스타일: 단순하지만, 초기에는 클래스 스타일에 비해 기능이 제한적이었음.
+그러나 최근에 Hooks 기능이 추가되면서, 클래스 스타일에 버금가는 기능성을 제공하게 되었음.
+Hooks를 사용하면 함수 스타일에서도 state 관리와 라이프사이클 메서드와 비슷한 기능을 구현할 수 있음.
+
+2. 클래스 스타일에서 state 사용법
+클래스 스타일에서는 컴포넌트의 상태(state)를 관리할 수 있음. 
+
+-클래스 컴포넌트에서 state를 사용하는 방법-
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0,
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          Increment
+        </button>
+      </div>
+    );
+  }
+}
+state는 클래스 내부에서 constructor 메서드를 통해 초기화.
+상태를 업데이트할 때는 setState 메서드를 사용.
+
+3. 클래스 스타일에서 라이프사이클 구현하기
+클래스 컴포넌트는 컴포넌트의 생명주기(lifecycle)에 따라 
+특정 코드를 실행할 수 있는 메서드를 제공
+
+componentDidMount: 컴포넌트가 처음 DOM에 마운트된 후 실행됩니다.
+componentDidUpdate: 컴포넌트가 업데이트된 후 실행됩니다.
+componentWillUnmount: 컴포넌트가 DOM에서 제거되기 직전에 실행됩니다.
+
+class MyComponent extends React.Component {
+  componentDidMount() {
+    // 컴포넌트가 처음 렌더링된 후 실행
+    console.log('Component mounted!');
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // 컴포넌트가 업데이트된 후 실행
+    console.log('Component updated!');
+  }
+
+  componentWillUnmount() {
+    // 컴포넌트가 DOM에서 제거되기 직전에 실행
+    console.log('Component will unmount!');
+  }
+
+  render() {
+    return <div>My Component</div>;
+  }
+}
