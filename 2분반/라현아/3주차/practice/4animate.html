@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Animate Basic</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script>
+            // 이벤트 연결
+            $(document).ready(function () {
+                // // 이벤트 연결
+                // $('button').click(function () {
+                //     // 간단한 효과 적용
+                //     $('.page').fadeToggle('slow');
+                // });
+                $('#box').css({
+                    width: 100,
+                    height: 100, 
+                    background: 'red'
+                }). animate({
+                    width: 300,
+                    opacity: 0.5,
+                }, 500);
+            });
+        </script>
+    </head>
+    <body>
+        <!-- <button>Toggle Show</button>
+        <div class="page">
+            <h1>Lorem ipsum dolor sit amet</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        </div> -->
+        <div id="box"></div>
+    </body>
+</html>
