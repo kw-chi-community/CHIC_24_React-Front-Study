@@ -671,9 +671,27 @@
 
       // 전체, 서울, 부산, 대구에 대한 필터링
       function filterData(city) {
+        // 기존에 있던 칼럼 화살표를 제거
+        document.querySelectorAll('th').forEach(th => th.classList.remove('asc', 'desc'));
+
+        // 선택된 필터의 도시와 일치하는 데이터만 필터링
         filterByCity = city === '전체' ? [...jsonData] : jsonData.filter(data => data.City === city);
+        
+        // 페이지 초기화
         currentPage = 1;
         createTableFromJSON();
+
+        // 필터 버튼 클래스 업데이트
+        const filters = document.querySelectorAll('#all, [onclick="filterData(\'서울\')"], [onclick="filterData(\'부산\')"], [onclick="filterData(\'대구\')"]');
+        filters.forEach(filter => {
+            if (filter.textContent === city || (city === '전체' && filter.id === 'all')) {
+                filter.classList.remove('filteroff');
+                filter.classList.add('filteron');
+            } else {
+                filter.classList.remove('filteron');
+                filter.classList.add('filteroff');
+            }
+        });
       }
 
       // pagination 구현(1): 어떤 버튼 눌렸느냐에 따라 currentPage 변경
