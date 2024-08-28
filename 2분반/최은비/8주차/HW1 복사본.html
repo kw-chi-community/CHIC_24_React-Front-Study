@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON to HTML Table</title>
+  <style>
+    th:hover {
+      cursor: pointer;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    th.asc::after {
+      content: " ↓";
+    }
+
+    th.desc::after {
+      content: " ↑";
+    }
+
+    .filteroff {
+      display: inline-block;
+      width: 50px;
+      text-align: center;
+      border: 1px solid black;
+      border-radius: 5px;
+      margin: 5px;
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .filteron {
+      display: inline-block;
+      width: 50px;
+      text-align: center;
+      border: 1px solid black;
+      border-radius: 5px;
+      margin: 5px;
+      padding: 5px;
+      cursor: pointer;
+      background-color: yellow;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>JSON to HTML Table</h1>
+  <span id="all" class="filteron">전체</span>
+  <span class="filteroff">서울</span>
+  <span class="filteroff">부산</span>
+  <span class="filteroff">대구</span>
+  <table id="jsonTable">
+    <thead>
+      <tr>
+        <th data-index="0">Name ↑</th>
+        <th data-index="1">Age</th>
+        <th data-index="2">City</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // JSON 데이터
+
+    var jsonData = [
+      {
+        Name: "박지영",
+        Age: 33,
+        City: "제주",
+      },
+      {
+        Name: "김태희",
+        Age: 43,
+        City: "세종",
+      },
+      {
+        Name: "정수빈",
+        Age: 55,
+        City: "강릉",
+      },
+      {
+        Name: "박지영",
+        Age: 46,
+        City: "부산",
+      },
+      {
+        Name: "김태희",
+        Age: 27,
+        City: "서울",
+      },
+      {
+        Name: "정수빈",
+        Age: 31,
+        City: "대전",
+      },
+      {
+        Name: "정수빈",
+        Age: 36,
+        City: "제주",
+      },
+      {
+        Name: "이민호",
+        Age: 48,
+        City: "부산",
+      },
+      {
+        Name: "정수빈",
+        Age: 61,
+        City: "부산",
+      },
+      {
+        Name: "박지영",
+        Age: 54,
+        City: "서울",
+      },
+      {
+        Name: "이민호",
+        Age: 40,
+        City: "인천",
+      },
+      {
+        Name: "이민호",
+        Age: 28,
+        City: "제주",
+      },
+      {
+        Name: "김철수",
+        Age: 58,
+        City: "부산",
+      },
+      {
+        Name: "서영희",
+        Age: 30,
+        City: "인천",
+      },
+      {
+        Name: "이민호",
+        Age: 68,
+        City: "제주",
+      },
+      {
+        Name: "서영희",
+        Age: 67,
+        City: "제주",
+      },
+      {
+        Name: "김태희",
+        Age: 48,
+        City: "울산",
+      },
+      {
+        Name: "이민호",
+        Age: 46,
+        City: "서울",
+      },
+      {
+        Name: "서영희",
+        Age: 56,
+        City: "대구",
+      },
+      {
+        Name: "박지영",
+        Age: 24,
+        City: "서울",
+      },
+      {
+        Name: "김태희",
+        Age: 39,
+        City: "제주",
+      },
+      {
+        Name: "김철수",
+        Age: 30,
+        City: "제주",
+      },
+      {
+        Name: "김태희",
+        Age: 62,
+        City: "대전",
+      },
+      {
+        Name: "김철수",
+        Age: 39,
+        City: "부산",
+      },
+      {
+        Name: "정수빈",
+        Age: 41,
+        City: "부산",
+      },
+      {
+        Name: "송혜교",
+        Age: 29,
+        City: "인천",
+      },
+      {
+        Name: "최영희",
+        Age: 34,
+        City: "세종",
+      },
+      {
+        Name: "박지영",
+        Age: 61,
+        City: "대구",
+      },
+      {
+        Name: "김철수",
+        Age: 66,
+        City: "인천",
+      },
+      {
+        Name: "박지영",
+        Age: 50,
+        City: "세종",
+      },
+      {
+        Name: "김태희",
+        Age: 49,
+        City: "대구",
+      },
+      {
+        Name: "홍길동",
+        Age: 69,
+        City: "부산",
+      },
+      {
+        Name: "송혜교",
+        Age: 60,
+        City: "강릉",
+      },
+      {
+        Name: "송혜교",
+        Age: 48,
+        City: "울산",
+      },
+      {
+        Name: "김철수",
+        Age: 59,
+        City: "대구",
+      },
+      {
+        Name: "김철수",
+        Age: 61,
+        City: "대전",
+      },
+      {
+        Name: "최영희",
+        Age: 58,
+        City: "대구",
+      },
+      {
+        Name: "정수빈",
+        Age: 30,
+        City: "인천",
+      },
+      {
+        Name: "김철수",
+        Age: 36,
+        City: "강릉",
+      },
+      {
+        Name: "최영희",
+        Age: 63,
+        City: "강릉",
+      },
+      {
+        Name: "박지영",
+        Age: 29,
+        City: "부산",
+      },
+      {
+        Name: "홍길동",
+        Age: 23,
+        City: "광주",
+      },
+      {
+        Name: "정수빈",
+        Age: 46,
+        City: "대구",
+      },
+      {
+        Name: "정수빈",
+        Age: 28,
+        City: "세종",
+      },
+      {
+        Name: "박지영",
+        Age: 49,
+        City: "울산",
+      },
+      {
+        Name: "이민호",
+        Age: 33,
+        City: "제주",
+      },
+      {
+        Name: "홍길동",
+        Age: 44,
+        City: "대전",
+      },
+      {
+        Name: "장미경",
+        Age: 27,
+        City: "강릉",
+      },
+      {
+        Name: "박지영",
+        Age: 51,
+        City: "광주",
+      },
+      {
+        Name: "김태희",
+        Age: 46,
+        City: "대전",
+      },
+      {
+        Name: "최영희",
+        Age: 24,
+        City: "광주",
+      },
+      {
+        Name: "송혜교",
+        Age: 43,
+        City: "인천",
+      },
+      {
+        Name: "정수빈",
+        Age: 48,
+        City: "울산",
+      },
+      {
+        Name: "장미경",
+        Age: 43,
+        City: "울산",
+      },
+      {
+        Name: "송혜교",
+        Age: 25,
+        City: "서울",
+      },
+      {
+        Name: "최영희",
+        Age: 50,
+        City: "서울",
+      },
+      {
+        Name: "홍길동",
+        Age: 51,
+        City: "서울",
+      },
+      {
+        Name: "정수빈",
+        Age: 20,
+        City: "제주",
+      },
+      {
+        Name: "송혜교",
+        Age: 44,
+        City: "강릉",
+      },
+      {
+        Name: "김태희",
+        Age: 20,
+        City: "대구",
+      },
+      {
+        Name: "박지영",
+        Age: 43,
+        City: "부산",
+      },
+      {
+        Name: "서영희",
+        Age: 56,
+        City: "서울",
+      },
+      {
+        Name: "장미경",
+        Age: 28,
+        City: "부산",
+      },
+      {
+        Name: "박지영",
+        Age: 52,
+        City: "인천",
+      },
+      {
+        Name: "최영희",
+        Age: 43,
+        City: "대전",
+      },
+      {
+        Name: "김철수",
+        Age: 20,
+        City: "광주",
+      },
+      {
+        Name: "송혜교",
+        Age: 36,
+        City: "울산",
+      },
+      {
+        Name: "홍길동",
+        Age: 56,
+        City: "부산",
+      },
+      {
+        Name: "김태희",
+        Age: 36,
+        City: "인천",
+      },
+      {
+        Name: "송혜교",
+        Age: 49,
+        City: "강릉",
+      },
+      {
+        Name: "홍길동",
+        Age: 69,
+        City: "부산",
+      },
+      {
+        Name: "김철수",
+        Age: 28,
+        City: "서울",
+      },
+      {
+        Name: "서영희",
+        Age: 52,
+        City: "부산",
+      },
+      {
+        Name: "이민호",
+        Age: 53,
+        City: "대구",
+      },
+      {
+        Name: "김철수",
+        Age: 39,
+        City: "울산",
+      },
+      {
+        Name: "최영희",
+        Age: 41,
+        City: "광주",
+      },
+      {
+        Name: "김철수",
+        Age: 48,
+        City: "강릉",
+      },
+      {
+        Name: "서영희",
+        Age: 43,
+        City: "대전",
+      },
+      {
+        Name: "김태희",
+        Age: 30,
+        City: "부산",
+      },
+      {
+        Name: "장미경",
+        Age: 50,
+        City: "광주",
+      },
+      {
+        Name: "김철수",
+        Age: 38,
+        City: "강릉",
+      },
+      {
+        Name: "최영희",
+        Age: 69,
+        City: "세종",
+      },
+      {
+        Name: "최영희",
+        Age: 31,
+        City: "강릉",
+      },
+      {
+        Name: "박지영",
+        Age: 35,
+        City: "강릉",
+      },
+      {
+        Name: "홍길동",
+        Age: 27,
+        City: "부산",
+      },
+      {
+        Name: "송혜교",
+        Age: 60,
+        City: "대전",
+      },
+      {
+        Name: "김태희",
+        Age: 67,
+        City: "대전",
+      },
+      {
+        Name: "박지영",
+        Age: 54,
+        City: "제주",
+      },
+      {
+        Name: "김철수",
+        Age: 51,
+        City: "인천",
+      },
+      {
+        Name: "이민호",
+        Age: 23,
+        City: "부산",
+      },
+      {
+        Name: "송혜교",
+        Age: 53,
+        City: "서울",
+      },
+      {
+        Name: "김철수",
+        Age: 60,
+        City: "서울",
+      },
+      {
+        Name: "김태희",
+        Age: 32,
+        City: "대전",
+      },
+      {
+        Name: "송혜교",
+        Age: 60,
+        City: "세종",
+      },
+      {
+        Name: "홍길동",
+        Age: 29,
+        City: "대전",
+      },
+      {
+        Name: "최영희",
+        Age: 31,
+        City: "대구",
+      },
+      {
+        Name: "서영희",
+        Age: 46,
+        City: "부산",
+      },
+      {
+        Name: "홍길동",
+        Age: 48,
+        City: "대구",
+      },
+      {
+        Name: "서영희",
+        Age: 62,
+        City: "대전",
+      },
+      {
+        Name: "장미경",
+        Age: 50,
+        City: "인천",
+      },
+    ];
+
+    // JSON 데이터를 HTML 표로 변환하는 함수
+    function createTableFromJSON() {
+      var table = document.getElementById("jsonTable");
+      var tbody = table.getElementsByTagName("tbody")[0];
+
+      for (var i = 0; i < jsonData.length; i++) {
+        var row = tbody.insertRow(i);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = jsonData[i].Name;
+        cell2.innerHTML = jsonData[i].Age;
+        cell3.innerHTML = jsonData[i].City;
+      }
+    }
+
+    // 정렬 기능 함수
+    function sortTable(columnIndex) {
+      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+      table = document.getElementById("jsonTable");
+      switching = true;
+      dir = table.querySelectorAll("th")[columnIndex].classList.contains("asc") ? "desc" : "asc";
+
+      while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < (rows.length - 1); i++) {
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[columnIndex];
+          y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+          if (dir === "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+            }
+          } else {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          switchcount++;
+        } else {
+          if (switchcount === 0 && dir === "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+
+      // 열 제목 클래스 업데이트
+      document.querySelectorAll("#jsonTable th").forEach(th => th.classList.remove("asc", "desc"));
+      table.querySelectorAll("th")[columnIndex].classList.add(dir);
+    }
+
+    // 열 제목 클릭 이벤트 리스너 추가
+    document.querySelectorAll("#jsonTable th").forEach((th, index) => {
+      th.addEventListener("click", () => sortTable(index));
+    });
+
+    // 필터링 기능 함수
+    function filterTable(city) {
+      var table, rows, i;
+      table = document.getElementById("jsonTable");
+      rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+      for (i = 0; i < rows.length; i++) {
+        var cell = rows[i].getElementsByTagName("td")[2]; // City 열
+        if (city === "전체" || cell.innerHTML === city) {
+          rows[i].style.display = "";
+        } else {
+          rows[i].style.display = "none";
+        }
+      }
+    }
+
+    // 필터 버튼 클릭 이벤트 리스너 추가
+    document.querySelectorAll(".filteroff").forEach(span => {
+      span.addEventListener("click", () => {
+        document.querySelectorAll(".filteroff").forEach(f => f.classList.remove("filteron"));
+        span.classList.add("filteron");
+        filterTable(span.innerHTML);
+      });
+    });
+
+    document.getElementById("all").addEventListener("click", () => {
+      document.querySelectorAll(".filteroff").forEach(f => f.classList.remove("filteron"));
+      document.getElementById("all").classList.add("filteron");
+      filterTable("전체");
+    });
+
+    // 페이지 로드 시 테이블 데이터 로드
+    window.onload = createTableFromJSON;
+  </script>
+
+</body>
+
+</html>
