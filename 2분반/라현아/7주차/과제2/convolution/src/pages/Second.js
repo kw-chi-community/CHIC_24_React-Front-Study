@@ -74,39 +74,47 @@ function Second() {
     const canvas = canvasRef.current; // useRef Hook -> 캔버스 참조
     const ctx = canvas.getContext("2d"); // 2D 컨텍스트
 
+    const height = imageData.length;
+    const width = imageData[0].length;
+
     // (이미지 데이터를 복사해서 사용하고)
     // 1. imageData 객체를 JSON 문자열로 변환: JSON.stringify(imageData)
     // 2. 다시 객체로 변환하여 imageData 카피본인 outputData 만들기: JSON.parse(...)
-    const outputData = JSON.parse(JSON.stringify(imageData));
-    const delay = 5; // ! output 출력과정 재생간격: 5ms. 
+    const updatedData = JSON.parse(JSON.stringify(imageData));
+    const delay = 0.001; // ! output 출력과정 재생간격: 5 (확인 위해 0.1로 수정함)
 
-    let step = 0;
-    const maxSteps = imageData.length - 2; 
-    // 3x3 커널 -> 가장자리 픽셀 제외
+    let x = 1;
+    let y = 1;
+
+    // let step = 0;
+    // const maxSteps = imageData.length - 2; 
+    // // 3x3 커널 -> 가장자리 픽셀 제외
 
     const applyStep = () => {
-      if (step > maxSteps) return;
+      if (y >= height - 1) return;
 
-      const updatedData = JSON.parse(JSON.stringify(imageData));
-      
-      // ! Convolution 연산
-      for (let y = 1; y < imageData.length - 1; y++) {
-        for (let x = 1; x < imageData[0].length - 1; x++) {
-          let newValue = 0;
-          kernel.forEach((kernelRow, ky) => {
-            kernelRow.forEach((kernelValue, kx) => {
-              // (각 이미지 픽셀에 커널 값을 적용/계산)
-              newValue += imageData[y + ky - 1][x + kx - 1] * kernelValue;
-            });
-          });
-          updatedData[y][x] = newValue;
-        }
+      let newValue = 0;
+      kernel.forEach((kernelRow, ky) => {
+        kernelRow.forEach((kernelValue, kx) => {
+          // ! Convolution 연산
+          // (각 이미지 픽셀에 커널 값을 적용/계산)
+          newValue += imageData[y + ky - 1][x + kx - 1] * kernelValue;
+        });
+      });
+      updatedData[y][x] = newValue;
+  
+      // 현재 픽셀에 대한 업데이트를 반영하여 캔버스에 그리기
+      ctx.fillStyle = `rgb(${newValue}, ${newValue}, ${newValue})`;
+      ctx.fillRect(x, y, 1, 1);
+  
+      // 다음 픽셀로 이동
+      x++;
+      if (x >= width - 1) {
+        x = 1;
+        y++;
       }
-
-      drawImage(updatedData);
-
-      step += 1;
-      // (해당 과정을 5ms 간격으로 업데이트)
+  
+      // 다음 픽셀로 이동 후 딜레이 적용
       setTimeout(applyStep, delay);
     };
 
