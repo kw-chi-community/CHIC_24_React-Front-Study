@@ -1,0 +1,39 @@
+/* src/components/Table.css */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  th {
+    cursor: pointer;
+    position: relative;
+  }
+  
+  th:hover {
+    background-color: #f1f1f1;
+  }
+  
+  th::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+  }
+  
+  th.asc::after {
+    border-bottom: 6px solid #333;
+  }
+  
+  th.desc::after {
+    border-top: 6px solid #333;
+  }
+  

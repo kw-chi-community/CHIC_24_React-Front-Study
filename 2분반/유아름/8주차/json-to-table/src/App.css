@@ -1,0 +1,36 @@
+th:hover {
+  cursor: pointer;
+}
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.asc::after {
+  content: " ↓";
+}
+.desc::after {
+  content: " ↑";
+}
+.filteroff {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+.filteron {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+  background-color: yellow;
+}
