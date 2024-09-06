@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" /> <!-- 문자 인코딩을 UTF-8로 설정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- 뷰포트 설정, 모바일 장치에서의 반응형 디자인 지원 -->
+    <title>Convolution</title> <!-- 브라우저 탭에 표시될 제목 -->
+  </head>
+  <body>
+    <h3>Upload Grayscale Image CSV:</h3> <!-- 사용자에게 이미지 CSV 파일 업로드를 요청하는 제목 -->
+    <input type="file" id="upload" accept=".csv" /> <!-- CSV 파일만 선택할 수 있는 파일 입력 필드 -->
+    <br />
+    <h3>Enter 3x3 Kernel (comma-separated):</h3> <!-- 3x3 커널 입력을 요청하는 제목 -->
+    <textarea id="kernel" rows="3" cols="20">
+      1, 0, -1
+      1, 0, -1
+      1, 0, -1
+    </textarea> <!-- 커널 값을 입력할 수 있는 텍스트 영역 -->
+    <br />
+    <button onclick="performConvolution()">Apply Convolution</button> <!-- 컨볼루션을 적용할 버튼, 클릭 시 performConvolution() 함수 호출 -->
+    <h3>Image:</h3> <!-- 이미지가 표시될 제목 -->
+    <canvas id="originalCanvas"></canvas> <!-- 이미지 데이터를 그릴 캔버스 요소 -->
+
+    <script>
+      let imageData; // 이미지 데이터를 저장할 변수
+
+      // 파일 입력 요소에 파일 선택 이벤트 리스너 추가
+      document
+        .getElementById("upload")
+        .addEventListener("change", handleFileUpload);
+
+      // 파일 업로드 처리 함수
+      function handleFileUpload(event) {
+        const file = event.target.files[0]; // 선택된 파일 가져오기
+        if (file && file.type === "text/csv") { // 파일이 CSV 형식인지 확인
+          const reader = new FileReader(); // FileReader 객체 생성
+          reader.onload = function (e) {
+            const csvData = e.target.result; // 파일 내용 읽기
+            imageData = parseCsvToImageData(csvData); // CSV 데이터를 이미지 데이터로 변환
+            drawImage("originalCanvas", imageData); // 변환된 이미지를 캔버스에 그리기
+          };
+          reader.readAsText(file); // 파일을 텍스트로 읽기
+        } else {
+          alert("Please upload a valid CSV file."); // 유효하지 않은 파일 형식에 대한 경고
+        }
+      }
+
+      // CSV 데이터를 이미지 데이터 배열로 변환하는 함수
+      function parseCsvToImageData(csvData) {
+        const rows = csvData.trim().split("\n"); // CSV 데이터의 각 행을 분리
+        return rows.map((row) => row.split(",").map(Number)); // 각 행을 숫자 배열로 변환
+      }
+
+      // 캔버스에 이미지를 그리는 함수
+      function drawImage(canvasId, data) {
+        const canvas = document.getElementById(canvasId); // 캔버스 요소 가져오기
+        const ctx = canvas.getContext("2d"); // 2D 컨텍스트 가져오기
+        const height = data.length; // 이미지 데이터의 높이
+        const width = data[0].length; // 이미지 데이터의 너비
+        canvas.width = width; // 캔버스의 너비 설정
+        canvas.height = height; // 캔버스의 높이 설정
+
+        // 이미지 데이터의 각 픽셀을 캔버스에 그리기
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const pixelValue = data[y][x]; // 픽셀 값 가져오기
+            ctx.fillStyle = `rgb(${pixelValue}, ${pixelValue}, ${pixelValue})`; // 픽셀 값에 따라 색상 설정
+            ctx.fillRect(x, y, 1, 1); // 픽셀 그리기
+          }
+        }
+      }
+
+      // TODO: Implement this function
+      // 컨볼루션을 적용하는 함수, 현재는 구현되지 않음
+      function performConvolution() {
+        alert("TODO: Implement this function"); // 함수가 아직 구현되지 않았음을 알리는 경고
+      }
+    </script>
+  </body>
+</html>
